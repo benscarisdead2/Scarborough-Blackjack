@@ -9,17 +9,25 @@ while money > 0
       puts "You have #{money} in your wallet."
       puts "A new deck has been shuffled and there are #{$d.cards_left} cards"
       puts "Please place your bet."
-      bet = gets.chomp
+      good_bet = false
+      while good_bet == false
+        bet = Integer(gets.chomp)
+        if bet <= money
+          good_bet = true
+        else
+          puts "You cant bet more than #{money}"
+        end
+      end
       puts bet
       playah = Player.new
       puts "Player's hand:"
       puts playah.to_s
-      dealah = Player.new
+      dealer = Player.new
 
       if playah.hand_value == 21
         puts "Player wins with BlackJack!"
         puts "Dealer's hand:"
-        puts dealah.to_s
+        puts dealer.to_s
 
       else
         until playah.hand_value > 21
@@ -38,13 +46,13 @@ while money > 0
         end
 
         puts "Dealer's hand:"
-        puts dealah.to_s
+        puts dealer.to_s
 
         if playah.hand_value <= 21
-          if playah.hand_value > dealah.hand_value
+          if playah.hand_value > dealer.hand_value
             puts "Player wins"
             money += Integer(bet)
-          elsif playah.hand_value == dealah.hand_value
+          elsif playah.hand_value == dealer.hand_value
             puts "Dealer and Player tied"
           else
             puts "Dealer wins"
